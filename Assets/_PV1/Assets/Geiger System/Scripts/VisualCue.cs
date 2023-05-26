@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace _PV1.Assets.Bryan_Scripts
+namespace _PV1.Assets.Geiger_System.Scripts
 {
     public class VisualCue : MonoBehaviour
     {
@@ -10,7 +10,8 @@ namespace _PV1.Assets.Bryan_Scripts
 
         private FilmGrain m_filmGrain;
         private ColorAdjustments m_colorAdjustments;
-    
+        private Vignette m_vignette;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -20,12 +21,19 @@ namespace _PV1.Assets.Bryan_Scripts
             {
                 m_filmGrain = filmGrain;
             }
-        
+
             m_volumeProfile.profile.TryGet(typeof(ColorAdjustments), out ColorAdjustments colorAdjustments);
 
             if (colorAdjustments != null)
             {
                 m_colorAdjustments = colorAdjustments;
+            }
+
+            m_volumeProfile.profile.TryGet(typeof(Vignette), out Vignette vignette);
+
+            if (vignette != null)
+            {
+                m_vignette = vignette;
             }
         }
 
@@ -34,6 +42,7 @@ namespace _PV1.Assets.Bryan_Scripts
             var saturationValue = -100 * value;
             m_filmGrain.intensity.value = value;
             m_colorAdjustments.saturation.value = saturationValue;
+            m_vignette.intensity.value = value;
         }
     }
 }

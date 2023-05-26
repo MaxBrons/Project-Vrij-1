@@ -1,7 +1,7 @@
-﻿using _PV1.Assets.Bryan_Scripts.Interfaces;
+﻿using _PV1.Assets.Geiger_System.Scripts.Interfaces;
 using UnityEngine;
 
-namespace _PV1.Assets.Bryan_Scripts
+namespace _PV1.Assets.Geiger_System.Scripts
 {
     public class GasMask : MonoBehaviour, IDamagable
     {
