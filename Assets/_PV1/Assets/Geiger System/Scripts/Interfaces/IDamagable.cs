@@ -1,4 +1,4 @@
-﻿namespace _PV1.Assets.Geiger_System.Scripts.Interfaces
+﻿namespace PV
 {
     public interface IDamagable
     {

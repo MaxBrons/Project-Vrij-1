@@ -2,47 +2,47 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace _PV1.Assets.Geiger_System.Scripts
+namespace PV.Systems.Geiger
 {
     public class VisualCue : MonoBehaviour
     {
-        [SerializeField] private Volume m_volumeProfile;
+        [SerializeField] private Volume m_VolumeProfile;
 
-        private FilmGrain m_filmGrain;
-        private ColorAdjustments m_colorAdjustments;
-        private Vignette m_vignette;
+        private FilmGrain m_FilmGrain;
+        private ColorAdjustments m_ColorAdjustments;
+        private Vignette m_Vignette;
 
         // Start is called before the first frame update
         void Start()
         {
-            m_volumeProfile.profile.TryGet(typeof(FilmGrain), out FilmGrain filmGrain);
+            m_VolumeProfile.profile.TryGet(typeof(FilmGrain), out FilmGrain filmGrain);
 
             if (filmGrain != null)
             {
-                m_filmGrain = filmGrain;
+                m_FilmGrain = filmGrain;
             }
 
-            m_volumeProfile.profile.TryGet(typeof(ColorAdjustments), out ColorAdjustments colorAdjustments);
+            m_VolumeProfile.profile.TryGet(typeof(ColorAdjustments), out ColorAdjustments colorAdjustments);
 
             if (colorAdjustments != null)
             {
-                m_colorAdjustments = colorAdjustments;
+                m_ColorAdjustments = colorAdjustments;
             }
 
-            m_volumeProfile.profile.TryGet(typeof(Vignette), out Vignette vignette);
+            m_VolumeProfile.profile.TryGet(typeof(Vignette), out Vignette vignette);
 
             if (vignette != null)
             {
-                m_vignette = vignette;
+                m_Vignette = vignette;
             }
         }
 
         public void UpdateRadiationCue(float value)
         {
             var saturationValue = -100 * value;
-            m_filmGrain.intensity.value = value;
-            m_colorAdjustments.saturation.value = saturationValue;
-            m_vignette.intensity.value = value;
+            m_FilmGrain.intensity.value = value;
+            m_ColorAdjustments.saturation.value = saturationValue;
+            m_Vignette.intensity.value = value;
         }
     }
 }

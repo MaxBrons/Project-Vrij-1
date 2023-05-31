@@ -1,26 +1,25 @@
-﻿using _PV1.Assets.Geiger_System.Scripts;
-using _PV1.Assets.Geiger_System.Scripts.Interfaces;
+﻿using PV.Systems.Geiger;
 using UnityEngine;
 
-namespace _PV1.Assets.Geiger_System.Scripts
+namespace PV.Entities
 {
     public class Player : MonoBehaviour, IDamagable
     {
-        [SerializeField] private GasMask m_gasMask;
+        [SerializeField] private GasMask m_GasMask;
 
-        private float m_healthPoints = 100f;
+        private float m_HealthPoints = 100f;
         
         public void TakeDamage(float amount)
         {
             Debug.Log($"TakeDMG: {amount}");
             
-            if (m_gasMask.HasDurability)
+            if (m_GasMask.HasDurability)
             {
-                m_gasMask.TakeDamage(amount);
+                m_GasMask.TakeDamage(amount);
                 return;
             }
             
-            m_healthPoints -= amount;
+            m_HealthPoints -= amount;
         }
     }
 }

@@ -289,7 +289,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &776354050
 GameObject:
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7f2c05b4ede0146adb4ab92fc60c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_volumeProfile: {fileID: 776354052}
+  m_VolumeProfile: {fileID: 776354052}
 --- !u!114 &776354052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,7 +352,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1001926100
 GameObject:
@@ -556,7 +556,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1550309692
 MonoBehaviour:
@@ -570,11 +570,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be9f2365722401db2a2ab469ec276c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxDamage: 10
-  m_tickRate: 2
-  m_sphereCollider: {fileID: 1550309693}
-  m_visualCue: {fileID: 776354051}
-  _audioSource: {fileID: 1550309694}
+  m_MaxDamage: 10
+  m_TickRate: 1
+  m_SphereCollider: {fileID: 1550309693}
+  m_VisualCue: {fileID: 776354051}
+  m_AudioSource: {fileID: 1550309694}
+  m_GeigerCounter:
+  - {fileID: 8300000, guid: de19c26f3800ea546a727866f2cd7401, type: 3}
+  - {fileID: 8300000, guid: 074407b80afb02c4491f2fe891bf8606, type: 3}
+  - {fileID: 8300000, guid: 2da70d257e4fa6a44b53c8eee0f42c83, type: 3}
 --- !u!135 &1550309693
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -606,7 +610,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 93230d77082962d42abd9ade375abfcc, type: 3}
+  m_audioClip: {fileID: 8300000, guid: de19c26f3800ea546a727866f2cd7401, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -692,50 +696,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &1829372136
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1829372138}
-  - component: {fileID: 1829372137}
-  m_Layer: 0
-  m_Name: RadiationSourceManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1829372137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1829372136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19371c94a54617048a63b581152ab7d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1829372138
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1829372136}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2043876233
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,7 +804,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2043876238
 Rigidbody:
@@ -885,7 +845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26fca28e29ec48018fad10a8c0dc48ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_gasMask: {fileID: 2043876240}
+  m_GasMask: {fileID: 2043876240}
 --- !u!114 &2043876240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,5 +858,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 894de70c351b4b318bd481062804cd7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_durability: 1
-  m_maxDurability: 1
+  m_Durability: 10
+  m_MaxDurability: 10

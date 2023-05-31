@@ -1,21 +1,20 @@
-﻿using _PV1.Assets.Geiger_System.Scripts.Interfaces;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace _PV1.Assets.Geiger_System.Scripts
+namespace PV.Systems.Geiger
 {
     public class GasMask : MonoBehaviour, IDamagable
     {
         //UI Toevoegen
         
-        public float NormalizedDurability => m_durability / m_maxDurability;
-        public bool HasDurability => m_durability > 0f;
+        public float NormalizedDurability => m_Durability / m_MaxDurability;
+        public bool HasDurability => m_Durability > 0f;
         
-        [SerializeField] private float m_durability;
-        [SerializeField] private float m_maxDurability;
+        [SerializeField] private float m_Durability;
+        [SerializeField] private float m_MaxDurability;
 
         public void TakeDamage(float amount)
         {
-            m_durability -= amount;
+            m_Durability -= amount;
         }
     }
 }

@@ -1,46 +1,29 @@
 ﻿using System;
+using PV.Entities;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace _PV1.Assets.Geiger_System.Scripts
+namespace PV.Systems.Geiger
 {
-    //IDamagable
-
-    //Player : IDamagable
-    //HP
-    //Item?
-
-    //RadiationSource
-    //MaxDistance
-    //MaxDamage
-    //TickRate
-
-    //Item
-    //Durability
-
-    //moeten dingen gebeuren
-
     [RequireComponent(typeof(SphereCollider))]
     public class RadiationSource : MonoBehaviour
     {
-        [SerializeField] private float m_maxDamage;
-        [SerializeField] private float m_tickRate;
-        [SerializeField] private SphereCollider m_sphereCollider;
-        [SerializeField] private VisualCue m_visualCue;
-        
-        
-        [SerializeField] private AudioSource m_audioSource;
-        [SerializeField] private AudioClip[] m_geigerCounter;
-        private AudioClip m_geigerCounterClip;
-        
-        private Player m_player;
-        private float m_maxDistance;
-        private float m_tick;
-        private bool _isPlaying;
+        [SerializeField] private float m_MaxDamage;
+        [SerializeField] private float m_TickRate;
+        [SerializeField] private SphereCollider m_SphereCollider;
+        [SerializeField] private VisualCue m_VisualCue;
+
+        [SerializeField] private AudioSource m_AudioSource;
+        [SerializeField] private AudioClip[] m_GeigerCounter;
+
+        private Player m_Player;
+        private float m_MaxDistance;
+        private float m_Tick;
+        private AudioClip m_CurrentClip;
 
         private void Start()
         {
-            m_maxDistance = m_sphereCollider.radius;
+            m_MaxDistance = m_SphereCollider.radius;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -52,48 +35,79 @@ namespace _PV1.Assets.Geiger_System.Scripts
                 return;
             }
 
-            m_player = player;
+            m_Player = player;
         }
 
         private void OnTriggerStay(Collider other)
         {
-            if (m_player == null)
+            if (m_Player == null)
             {
                 return;
             }
 
-            float distance = Vector3.Distance(m_player.transform.position, transform.position);
-            float normalized = (1 - (distance / m_maxDistance));
+            float distance = Vector3.Distance(m_Player.transform.position, transform.position);
+            float normalized = (1 - (distance / m_MaxDistance));
             normalized = Mathf.Clamp(normalized, 0, 1);
 
-            m_visualCue.UpdateRadiationCue(normalized);
-
-            if (!_isPlaying)
+            //Sound
+            if (normalized <= 0.3f)
             {
-                _isPlaying = true;
-                _audioSource.Play();
+                if (m_AudioSource.clip != m_GeigerCounter[0])
+                {
+                    m_CurrentClip = m_GeigerCounter[0];
+                    m_AudioSource.Stop();
+                    Debug.Log("Normalized <= 0.3f");
+                }
+            }
+            else if (normalized <= 0.6f)
+            {
+                if (m_AudioSource.clip != m_GeigerCounter[1])
+                {
+                    m_CurrentClip = m_GeigerCounter[1];
+                    m_AudioSource.Stop();
+                    Debug.Log("normalized <= 0.6f && normalized > 0.3f");
+                }
+            }
+            else if (normalized <= 1f)
+            {
+                if (m_AudioSource.clip != m_GeigerCounter[2])
+                {
+                    m_CurrentClip = m_GeigerCounter[2];
+                    m_AudioSource.Stop();
+                    Debug.Log("normalized <= 1f && normalized > 0.6f");
+                }
             }
 
-            if (Time.time >= m_tick)
+            if (!m_AudioSource.isPlaying)
             {
-                float damage = normalized * m_maxDamage;
+                m_AudioSource.clip = m_CurrentClip;
+                m_AudioSource.Play();
+            }
+
+            Debug.Log($"Normalized: {normalized}");
+
+
+            m_VisualCue.UpdateRadiationCue(normalized);
+
+            if (Time.time >= m_Tick)
+            {
+                float damage = normalized * m_MaxDamage;
 
                 if (damage <= 0)
                 {
                     return;
                 }
 
-                m_player.TakeDamage(damage);
-                m_tick = Time.time + m_tickRate;
+                m_Player.TakeDamage(damage);
+                m_Tick = Time.time + m_TickRate;
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            _audioSource.Stop();
-            _isPlaying = false;
-            m_player = null;
-            m_tick = 0f;
+            m_AudioSource.Stop();
+            m_Player = null;
+            m_Tick = 0f;
         }
     }
 }
