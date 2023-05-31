@@ -29,9 +29,9 @@ namespace _PV1.Assets.Geiger_System.Scripts
         [SerializeField] private VisualCue m_visualCue;
         
         
-        [SerializeField] private AudioSource _audioSource;
-        [SerializeField] private AudioClip[] _geigerCounter;
-        private AudioClip _geigerCounterClip;
+        [SerializeField] private AudioSource m_audioSource;
+        [SerializeField] private AudioClip[] m_geigerCounter;
+        private AudioClip m_geigerCounterClip;
         
         private Player m_player;
         private float m_maxDistance;
