@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace PV.Utility
 {
-    public abstract class Module
+    public abstract class Module : MonoBehaviour
     {
         protected Transform m_Owner;
 
-        public Module(Transform owner)
+        public void Init(Transform owner)
         {
             m_Owner = owner;
         }
 
         public Transform Owner => m_Owner;
 
-        public virtual void OnStart() { }
-        public virtual void OnUpdate() { }
-        public virtual void OnDestroy() { }
+        public abstract void OnStart();
+        public abstract void OnUpdate();
+        public abstract void OnDestroy();
     }
 }
