@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bc39f9615afefc4fa419cd8f1d85f58, type: 3}
-  m_Name: Interaction Settings Desktop
+  m_Name: Interaction Settings Console
   m_EditorClassIdentifier: 
-  Type: 0
+  Type: 1
   Settings:
   - Type: 1
-    ButtonSprite: {fileID: 0}
-    Content: E
+    InteractionInfo:
+      key: {fileID: 0}
+      value: Interact
   - Type: 2
-    ButtonSprite: {fileID: 0}
-    Content: F
+    InteractionInfo:
+      key: {fileID: 0}
+      value: Pick Up

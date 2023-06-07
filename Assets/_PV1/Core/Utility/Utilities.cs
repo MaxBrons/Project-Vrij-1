@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using UnityEngine;
 
-namespace PV.Utility
+namespace PV.Core.Utility
 {
     public static class Utilities
     {
