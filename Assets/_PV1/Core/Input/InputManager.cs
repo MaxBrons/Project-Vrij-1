@@ -4,10 +4,10 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace PV.Core
+namespace PV.Input
 {
-    [System.Serializable]
-    public class InputManager : Behaviour
+    [Serializable]
+    public class InputManager : Core.Behaviour
     {
         public static InputManager Instance {
             get => s_Instance;
@@ -90,7 +90,7 @@ namespace PV.Core
             }
         }
 
-        public void Enable(bool value, params System.Type[] actionAssetType)
+        public void Enable(bool value, params Type[] actionAssetType)
         {
             if (actionAssetType.Length > 0) {
                 for (int i = 0; i < actionAssetType.Length; i++) {
