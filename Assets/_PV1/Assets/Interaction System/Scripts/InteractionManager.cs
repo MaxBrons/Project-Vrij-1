@@ -85,7 +85,7 @@ namespace PV.Interaction
         {
             var settings = m_CurrentInteractable.Interactable.GetSettings();
             var interactionSetting = m_Settings.Settings.Find(e => e.Type == type);
-            m_InteractableUI.Init(settings.InteractableTitle, interactionSetting.ButtonSprite, interactionSetting.Content, settings.HoldInteraction, settings.InteractionDuration, holding);
+            m_InteractableUI.Init(settings.Name, interactionSetting.ButtonSprite, interactionSetting.Content, settings.HoldInteraction, settings.InteractionDuration, holding);
         }
 
         private void OnInteract(InputAction.CallbackContext context)

@@ -1,5 +1,6 @@
 using PV.Input;
 using PV.Interaction;
+using PV.InventorySystem;
 using UnityEngine;
 
 namespace PV.Core
@@ -10,14 +11,18 @@ namespace PV.Core
         [SerializeField] private InteractionManager m_InteractionManager;
         [SerializeField] private InputManager m_InputManager;
 
+        private Inventory m_Inventory;
+
         private void Awake()
         {
             m_InputManager.OnAwake();
+            m_Inventory = new Inventory();
         }
 
         void Start()
         {
             m_InteractionManager.OnStart();
+            m_Inventory.OnStart();
         }
 
         void Update()
@@ -29,6 +34,7 @@ namespace PV.Core
         {
             m_InteractionManager.OnDestroy();
             m_InputManager.OnDestroy();
+            m_Inventory.OnDestroy();
         }
     }
 }
