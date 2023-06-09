@@ -6,30 +6,31 @@ using UnityEngine.InputSystem;
 
 namespace PV.Input
 {
-    public class InputManager : MonoBehaviour
+    [Serializable]
+    public class InputManager : Core.Behaviour
     {
         public static InputManager Instance {
-            get => m_Instance;
+            get => s_Instance;
             set
             {
-                if (m_Instance != null)
+                if (s_Instance != null)
                     return;
 
-                m_Instance = value;
+                s_Instance = value;
             }
         }
 
-        private static InputManager m_Instance = null;
+        private static InputManager s_Instance = null;
 
         [SerializeField] private List<InputActionAsset> m_InputActionAssets = new List<InputActionAsset>();
 
         private List<InputAction> m_InputActions = new List<InputAction>();
 
-        private void Awake()
+        public override void OnAwake()
         {
             Instance = this;
             if (Instance != this)
-                Destroy(this);
+                return;
 
             foreach (var inputAsset in m_InputActionAssets) {
                 foreach (var actionMap in inputAsset.actionMaps.ToArray()) {
@@ -40,13 +41,12 @@ namespace PV.Input
 
                 inputAsset.Enable();
             }
-
-            GameObject.DontDestroyOnLoad(gameObject);
         }
 
-        private void OnDestroy()
+        public override void OnDestroy()
         {
-            m_Instance = null;
+            if (s_Instance == this)
+                s_Instance = null;
         }
 
         public void Subscribe(params Action<InputAction.CallbackContext>[] inputActionEvents)
@@ -90,7 +90,7 @@ namespace PV.Input
             }
         }
 
-        public void Enable(bool value, params System.Type[] actionAssetType)
+        public void Enable(bool value, params Type[] actionAssetType)
         {
             if (actionAssetType.Length > 0) {
                 for (int i = 0; i < actionAssetType.Length; i++) {

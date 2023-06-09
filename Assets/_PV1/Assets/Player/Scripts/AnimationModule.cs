@@ -1,7 +1,5 @@
-﻿using System;
+﻿using PV.Core;
 using PV.Input;
-using PV.Utility;
-using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,18 +26,15 @@ namespace PV
         public override void OnUpdate()
         {
             m_Animator.SetBool(Move, false);
-            m_Animator.SetBool(Running,false);
-            m_Animator.SetBool(Crouch,false);
-            if (m_Moving)
-            {
+            m_Animator.SetBool(Running, false);
+            m_Animator.SetBool(Crouch, false);
+            if (m_Moving) {
                 m_Animator.SetBool(Move, true);
             }
-            if (m_Running)
-            {
+            if (m_Running) {
                 m_Animator.SetBool(Running, true);
             }
-            if (m_Crouching)
-            {
+            if (m_Crouching) {
                 m_Animator.SetBool(Crouch, true);
             }
         }
