@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 namespace PV
 {
+    //TO-DO: Pas dit script aan naar een Module Component, zodat deze door de speler geüpdate kan worden.
+
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerMovement : MonoBehaviour
     {
