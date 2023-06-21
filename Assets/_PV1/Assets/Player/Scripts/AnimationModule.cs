@@ -25,7 +25,7 @@ namespace PV
             InputManager.Instance?.Subscribe(OnMove, OnCrouch, OnRun);
         }
 
-        public override void OnUpdate()
+        public override void OnLateUpdate()
         {
             m_Animator.SetBool(Move, false);
             m_Animator.SetBool(Running, false);

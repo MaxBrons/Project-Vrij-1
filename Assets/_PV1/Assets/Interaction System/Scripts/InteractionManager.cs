@@ -58,6 +58,11 @@ namespace PV.Interaction
 
         private void OnColliderExitEvent(Collider collision)
         {
+            if (!collision.transform.TryGetComponent<IInteractable>(out var interactable))
+                return;
+            if (collision.transform != m_CurrentInteractable.Owner)
+                return;
+
             m_CurrentInteractable = new InteractableTransform();
             m_InteractableUI.gameObject.SetActive(false);
         }
@@ -69,6 +74,7 @@ namespace PV.Interaction
 
             if (collision.transform == m_CurrentInteractable.Owner)
                 return;
+            Debug.Log(1);
 
             if (m_CurrentInteractable) {
                 float collisionDistance = Vector3.Distance(collision.transform.position, m_InteractableCheckCollider.transform.position);

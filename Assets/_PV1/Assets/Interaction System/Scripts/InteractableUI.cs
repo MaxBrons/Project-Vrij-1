@@ -28,6 +28,11 @@ namespace PV.Interaction
             if (m_ShouldHold) {
                 m_FillOnHoldImage.fillAmount = Mathf.Clamp01(1 / m_HoldDuration * m_HeldTime);
                 m_HeldTime += Time.deltaTime;
+
+                if (m_HeldTime >= m_HoldDuration) {
+                    m_ShouldHold = false;
+                    m_FillOnHoldImage.fillAmount = 0;
+                }
             }
         }
 

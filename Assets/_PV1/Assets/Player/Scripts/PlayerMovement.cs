@@ -16,8 +16,6 @@ namespace PV
         [SerializeField] private float m_CrouchSpeed;
         [SerializeField] private float m_VaultSpeed;
         [SerializeField] private CapsuleCollider m_CrouchCollider;
-        [SerializeField] private Transform m_GroundCheck;
-        [SerializeField] private float m_GroundCheckTreshold;
         [SerializeField] private List<Module> m_Modules = new List<Module>();
 
         private AudioModule m_AudioModule;
@@ -45,13 +43,17 @@ namespace PV
             InputManager.Instance?.Unsubscribe(OnMove, OnRun, OnCrouch, OnVault);
         }
 
-        void Update()
+        private void LateUpdate()
+        {
+            m_Modules.ForEach(m => m.OnLateUpdate());
+        }
+
+        void FixedUpdate()
         {
             m_MovementSpeed = !m_Running && !m_Crouching && !m_Vaulting ? m_WalkSpeed : m_MovementSpeed;
 
-            m_Modules.ForEach(module => module.OnUpdate());
             if (m_RB) {
-                m_RB.Move(transform.position + new Vector3(m_MovementSpeed * Time.deltaTime, 0.0f, 0.0f) * m_Direction, transform.rotation);
+                m_RB.MovePosition(transform.position + new Vector3(m_MovementSpeed * Time.deltaTime, 0.0f, 0.0f) * m_Direction);
             }
             if (m_Direction != 0)
                 transform.rotation = Quaternion.Euler(transform.rotation.x, m_Direction >= 0 ? 90 : -90, transform.rotation.z);
@@ -94,13 +96,8 @@ namespace PV
         {
             m_Vaulting = context.ReadValueAsButton();
             m_MovementSpeed = m_CrouchSpeed;
-            if (!m_GroundCheck) {
-                return;
-            }
 
-            bool isHit = Physics.Raycast(m_GroundCheck.position, Vector3.down, out RaycastHit hit);
-            if (isHit && hit.distance <= m_GroundCheckTreshold)
-                m_RB.AddForce(0.0f, m_VaultSpeed, 0.0f);
+            m_RB.AddForce(transform.up * m_VaultSpeed);
         }
     }
 }
