@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 4399213251844439144}
   - component: {fileID: 7255372266938102393}
   - component: {fileID: 8422803363650959701}
-  - component: {fileID: 3006408331554659193}
+  - component: {fileID: 2072231885590369834}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: MainCamera
@@ -163,7 +163,7 @@ Transform:
   m_Children:
   - {fileID: 4029866729301074249}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &3513023921124343597
 Camera:
@@ -296,7 +296,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3006408331554659193
+--- !u!114 &2072231885590369834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -305,10 +305,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 6815558871476253267}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87926b579ebd7a041a3dba0650a6c222, type: 3}
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ObjectToFollow: {fileID: 0}
-  m_Speed: 15
-  m_FollowTime: 0.25
-  m_Offset: {x: 0, y: 1.5, z: -7}
+  m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_IgnoreTimeScale: 0
+  m_WorldUpOverride: {fileID: 3242736152664834972}
+  m_UpdateMethod: 2
+  m_BlendUpdateMethod: 1
+  m_DefaultBlend:
+    m_Style: 1
+    m_Time: 2
+    m_CustomCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_CustomBlends: {fileID: 0}
+  m_CameraCutEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_CameraActivatedEvent:
+    m_PersistentCalls:
+      m_Calls: []

@@ -12,6 +12,7 @@ namespace PV
         {
             if (success)
                 m_Animator.SetBool("Open", success);
+            print(success);
         }
     }
 }
