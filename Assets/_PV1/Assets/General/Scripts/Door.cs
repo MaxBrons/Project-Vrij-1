@@ -10,7 +10,8 @@ namespace PV
 
         protected override void OnInteraction(bool success)
         {
-            m_Animator.SetBool("Open", success);
+            if (success)
+                m_Animator.SetBool("Open", success);
         }
     }
 }

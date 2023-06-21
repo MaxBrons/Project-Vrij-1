@@ -2,7 +2,7 @@
 
 namespace PV.Systems.Geiger
 {
-    public class GasMask : MonoBehaviour, IDamagable
+    public class GasMask : MonoBehaviour, IDamagable, IHealable
     {
         //UI Toevoegen
 
@@ -17,6 +17,9 @@ namespace PV.Systems.Geiger
             m_Durability -= amount;
         }
 
-        //TO-DO: IHealable interface implementeren, zodat het masker gereset kan worden
+        public void Heal(float amount)
+        {
+            m_Durability = Mathf.Clamp(m_Durability + amount, 0.0f, m_MaxDurability);
+        }
     }
 }

@@ -65,6 +65,10 @@ namespace PV
         private void OnMove(InputAction.CallbackContext context)
         {
             m_Direction = (int)context.ReadValue<float>();
+
+            if (!m_AudioModule)
+                return;
+
             if (m_Direction != 0)
                 m_AudioModule.Play();
             else
@@ -81,13 +85,18 @@ namespace PV
         {
             if (m_Crouching = context.ReadValueAsButton())
                 m_MovementSpeed = m_CrouchSpeed;
-            m_CrouchCollider.enabled = !m_Crouching;
+
+            if (m_CrouchCollider)
+                m_CrouchCollider.enabled = !m_Crouching;
         }
 
         private void OnVault(InputAction.CallbackContext context)
         {
             m_Vaulting = context.ReadValueAsButton();
             m_MovementSpeed = m_CrouchSpeed;
+            if (!m_GroundCheck) {
+                return;
+            }
 
             bool isHit = Physics.Raycast(m_GroundCheck.position, Vector3.down, out RaycastHit hit);
             if (isHit && hit.distance <= m_GroundCheckTreshold)

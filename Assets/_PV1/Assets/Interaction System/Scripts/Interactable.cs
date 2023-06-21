@@ -25,17 +25,21 @@ namespace PV.Interaction
 
         private bool m_Holding = false;
         private float m_HeldTime = 0.0f;
+        private bool m_Success = false;
 
         public virtual void Update()
         {
             if (m_Holding) {
                 m_HeldTime += Time.deltaTime;
+
+                if(m_HeldTime >= m_InteractableSettings.InteractionDuration && !m_Success) {
+                    OnInteraction(true);
+                    m_Success = true;
+                }
                 return;
             }
-            if (m_HeldTime > 0.0f) {
-
-                m_HeldTime = 0.0f;
-            }
+            m_Success = false;
+            m_HeldTime = 0.0f;
         }
 
         public bool OnInteract()
@@ -43,7 +47,8 @@ namespace PV.Interaction
             m_Holding = !m_Holding;
 
             if (m_InteractableSettings.HoldInteraction) {
-                OnInteraction(m_HeldTime >= m_InteractableSettings.InteractionDuration);
+                if(m_HeldTime < m_InteractableSettings.InteractionDuration)
+                    OnInteraction(false);
                 return m_HeldTime >= m_InteractableSettings.InteractionDuration;
             }
 
