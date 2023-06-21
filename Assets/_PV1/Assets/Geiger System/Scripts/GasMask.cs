@@ -36,5 +36,7 @@ namespace PV.Systems.Geiger
         {
             m_Durability = Mathf.Clamp(m_Durability + amount, 0.0f, m_MaxDurability);
         }
+
+        public float GetDurability() => m_Durability;
     }
 }
