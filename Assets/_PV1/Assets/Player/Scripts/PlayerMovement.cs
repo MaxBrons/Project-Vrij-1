@@ -29,7 +29,7 @@ namespace PV
 
         void Start()
         {
-            InputManager.Instance?.Subscribe(OnMove, OnRun, OnCrouch, OnVault);
+            InputManager.Instance?.Subscribe(OnMove, OnRun, OnCrouch);
 
             m_Modules.ForEach(module => module.OnStart());
 
@@ -40,7 +40,7 @@ namespace PV
         private void OnDestroy()
         {
             m_Modules.ForEach(module => module.OnDestroy());
-            InputManager.Instance?.Unsubscribe(OnMove, OnRun, OnCrouch, OnVault);
+            InputManager.Instance?.Unsubscribe(OnMove, OnRun, OnCrouch);
         }
 
         private void LateUpdate()

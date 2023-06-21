@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -47,17 +45,14 @@ public class MainMenuUI : MonoBehaviour
             m_Button.SetActive(false);
 
         float time = 0f;
-        while (time < m_FadeDuration)
-        {
+        while (time < m_FadeDuration) {
             time += Time.deltaTime;
             m_Image.color = Color.Lerp(m_FadeColor, endColor, time);
             yield return null;
         }
 
-        if(hasFaded)
-        {
-            if (SceneManager.GetSceneAt(m_SceneToLoad).IsUnityNull())
-                SceneManager.LoadScene(m_SceneToLoad);
+        if (hasFaded) {
+            SceneManager.LoadScene(m_SceneToLoad);
         }
 
     }
