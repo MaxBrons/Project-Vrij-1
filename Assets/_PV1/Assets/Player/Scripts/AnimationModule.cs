@@ -30,6 +30,12 @@ namespace PV
             m_Animator.SetBool(Move, false);
             m_Animator.SetBool(Running, false);
             m_Animator.SetBool(Crouch, false);
+
+            if (Physics.Raycast(m_GroundCheck.position, Vector3.down, out RaycastHit hit)) {
+                m_Animator.SetBool(Crouch, hit.distance >= m_GroundCheckTreshold);
+                if (hit.distance >= m_GroundCheckTreshold)
+                    return;
+            }
             if (m_Moving) {
                 m_Animator.SetBool(Move, true);
             }
@@ -38,9 +44,6 @@ namespace PV
             }
             if (m_Crouching) {
                 m_Animator.SetBool(Crouch, true);
-            }
-            else if (Physics.Raycast(m_GroundCheck.position, Vector3.down, out RaycastHit hit)) {
-                m_Animator.SetBool(Crouch, hit.distance >= m_GroundCheckTreshold);
             }
         }
 
