@@ -1,6 +1,7 @@
 using PV.Core.Utility;
 using PV.Input;
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,8 +39,8 @@ namespace PV.Interaction
         {
             InputManager.Instance.Subscribe(OnInteract, OnPickUp);
             if (m_InteractableCheckCollider) {
-                m_InteractableCheckCollider.OnCollisionEnterEvent += OnColliderEnterEvent;
-                m_InteractableCheckCollider.OnCollisionExitEvent += OnColliderExitEvent;
+                m_InteractableCheckCollider.OnCollisionEnterEvent += OnCollisionEnterEvent;
+                m_InteractableCheckCollider.OnCollisionExitEvent += OnCollisionExitEvent;
             }
 
             if (m_InteractableUI)
@@ -49,14 +50,14 @@ namespace PV.Interaction
         public override void OnDestroy()
         {
             if (m_InteractableCheckCollider) {
-                m_InteractableCheckCollider.OnCollisionEnterEvent -= OnColliderEnterEvent;
-                m_InteractableCheckCollider.OnCollisionExitEvent -= OnColliderExitEvent;
+                m_InteractableCheckCollider.OnCollisionEnterEvent -= OnCollisionEnterEvent;
+                m_InteractableCheckCollider.OnCollisionExitEvent -= OnCollisionExitEvent;
             }
 
             InputManager.Instance.Unsubscribe(OnInteract, OnPickUp);
         }
 
-        private void OnColliderExitEvent(Collider collision)
+        private void OnCollisionExitEvent(Collider collision)
         {
             if (!collision.transform.TryGetComponent<IInteractable>(out var interactable))
                 return;
@@ -67,32 +68,42 @@ namespace PV.Interaction
             m_InteractableUI.gameObject.SetActive(false);
         }
 
-        public void OnColliderEnterEvent(Collider collision)
+        public void OnCollisionEnterEvent(Collider collision)
         {
-            if (!collision.transform.TryGetComponent<IInteractable>(out var interactable))
+            var interactables = collision.transform.GetComponents<IInteractable>();
+            if (interactables.Length <= 0)
                 return;
 
             if (collision.transform == m_CurrentInteractable.Owner)
                 return;
-            Debug.Log(1);
 
             if (m_CurrentInteractable) {
                 float collisionDistance = Vector3.Distance(collision.transform.position, m_InteractableCheckCollider.transform.position);
-                float interactableDistance = Vector3.Distance(m_CurrentInteractable.Owner.position, m_InteractableCheckCollider.transform.position);
+                float interactableDistance = Vector3.Distance(m_CurrentInteractable.Interactable.GetInteractionTransform().position, m_InteractableCheckCollider.transform.position);
 
                 if (collisionDistance > interactableDistance)
                     return;
             }
 
-            m_CurrentInteractable = new InteractableTransform(interactable, collision.transform);
-            m_InteractableUI.transform.position = m_CurrentInteractable.Owner.position;
+            var first = collision.transform.GetComponents<IInteractable>().ToList().Find(i => i.CanInteract());
+            if (first == null)
+                return;
+
+            m_CurrentInteractable = new InteractableTransform(first, collision.transform);
+            m_InteractableUI.transform.position = m_CurrentInteractable.Interactable.GetInteractionTransform().position;
             m_InteractableUI.gameObject.SetActive(true);
 
-            UpdateInteractable(interactable.GetSettings().Type, false);
+            UpdateInteractable(first.GetSettings().Type, false);
         }
 
         public void UpdateInteractable(InteractionSetting.InteractionType type, bool holding)
         {
+            if (!m_CurrentInteractable.Interactable.CanInteract()) {
+                m_CurrentInteractable = new InteractableTransform();
+                m_InteractableUI.gameObject.SetActive(false);
+                return;
+            }
+
             var settings = m_CurrentInteractable.Interactable.GetSettings();
             var interactionSetting = m_Settings.Settings.Find(e => e.Type == type);
             m_InteractableUI.Init(settings.Name, interactionSetting.ButtonSprite, interactionSetting.Content, settings.HoldInteraction, settings.InteractionDuration, holding);

@@ -22,6 +22,7 @@ namespace PV.Interaction
     public class Interactable : MonoBehaviour, IInteractable
     {
         [SerializeField] private InteractableSettings m_InteractableSettings;
+        [SerializeField] private Transform m_PosOverride;
 
         private bool m_Holding = false;
         private float m_HeldTime = 0.0f;
@@ -32,7 +33,7 @@ namespace PV.Interaction
             if (m_Holding) {
                 m_HeldTime += Time.deltaTime;
 
-                if(m_HeldTime >= m_InteractableSettings.InteractionDuration && !m_Success) {
+                if (m_HeldTime >= m_InteractableSettings.InteractionDuration && !m_Success) {
                     OnInteraction(true);
                     m_Success = true;
                 }
@@ -47,7 +48,7 @@ namespace PV.Interaction
             m_Holding = !m_Holding;
 
             if (m_InteractableSettings.HoldInteraction) {
-                if(m_HeldTime < m_InteractableSettings.InteractionDuration)
+                if (m_HeldTime < m_InteractableSettings.InteractionDuration)
                     OnInteraction(false);
                 return m_HeldTime >= m_InteractableSettings.InteractionDuration;
             }
@@ -62,5 +63,20 @@ namespace PV.Interaction
         }
 
         protected virtual void OnInteraction(bool success) { }
+
+        public bool CanInteract()
+        {
+            return IsInteractable();
+        }
+
+        protected virtual bool IsInteractable()
+        {
+            return false;
+        }
+
+        public Transform GetInteractionTransform()
+        {
+            return m_PosOverride ? m_PosOverride : transform;
+        }
     }
 }

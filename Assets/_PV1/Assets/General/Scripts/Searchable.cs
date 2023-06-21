@@ -1,22 +1,38 @@
 ﻿using PV.Systems.Geiger;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace PV
 {
+    [RequireComponent(typeof(AudioSource))]
     public class Searchable : Interaction.Interactable
     {
         [SerializeField] private GasMask m_GasMask;
+        [SerializeField] private AudioClip m_Clip;
+
+        private AudioSource m_Source;
         private bool m_Searched = false;
+
+        private void Start()
+        {
+            m_Source = GetComponent<AudioSource>();
+            m_Source.clip = m_Clip;
+        }
 
         protected override void OnInteraction(bool success)
         {
-            if (!success || Random.Range(0, 2) == 0)
+            if (m_Searched)
                 return;
 
-            m_GasMask.Heal(1000.0f);
+            if (!success)
+                return;
             m_Searched = true;
+            m_GasMask.Heal(1000.0f);
+            m_Source.Play();
+        }
+
+        protected override bool IsInteractable()
+        {
+            return !m_Searched;
         }
     }
 }

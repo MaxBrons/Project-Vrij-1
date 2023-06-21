@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace PV.Systems.Geiger
 {
@@ -11,6 +12,20 @@ namespace PV.Systems.Geiger
 
         [SerializeField] private float m_Durability;
         [SerializeField] private float m_MaxDurability;
+        [SerializeField] private float m_DefaultDamage = 10.0f;
+
+        private void Start()
+        {
+            StartCoroutine(TakeDamageTimed());
+        }
+
+        private IEnumerator TakeDamageTimed()
+        {
+            while (true) {
+                yield return new WaitForSeconds(1);
+                TakeDamage(m_DefaultDamage);
+            }
+        }
 
         public void TakeDamage(float amount)
         {

@@ -839,6 +839,7 @@ GameObject:
   - component: {fileID: 484258055684307001}
   - component: {fileID: 1754002597730792090}
   - component: {fileID: 2444355421174469153}
+  - component: {fileID: 2978180436354301020}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -973,8 +974,6 @@ MonoBehaviour:
   m_CrouchSpeed: 2.5
   m_VaultSpeed: 200
   m_CrouchCollider: {fileID: 6069791851821547383}
-  m_GroundCheck: {fileID: 3234194478774349487}
-  m_GroundCheckTreshold: 0.2
   m_Modules:
   - {fileID: 5718724174106735006}
 --- !u!82 &484258055684307001
@@ -1099,6 +1098,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Durability: 100
   m_MaxDurability: 100
+--- !u!114 &2978180436354301020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960917575601779343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26fca28e29ec48018fad10a8c0dc48ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GasMask: {fileID: 2444355421174469153}
 --- !u!1 &1970467631972282283
 GameObject:
   m_ObjectHideFlags: 0

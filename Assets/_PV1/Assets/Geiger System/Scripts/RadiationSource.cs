@@ -1,11 +1,9 @@
-﻿using System;
-using PV.Entities;
+﻿using PV.Entities;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace PV.Systems.Geiger
 {
-    [RequireComponent(typeof(SphereCollider))]
+    [RequireComponent(typeof(SphereCollider), typeof(AudioSource))]
     public class RadiationSource : MonoBehaviour
     {
         [SerializeField] private float m_MaxDamage;
@@ -14,12 +12,15 @@ namespace PV.Systems.Geiger
         [SerializeField] private VisualCue m_VisualCue;
 
         [SerializeField] private AudioSource m_AudioSource;
+        [SerializeField] private AudioSource m_HeartbeatSource;
         [SerializeField] private AudioClip[] m_GeigerCounter;
+        [SerializeField] private AudioClip[] m_Heartbeats;
 
         private Player m_Player;
         private float m_MaxDistance;
         private float m_Tick;
         private AudioClip m_CurrentClip;
+        private AudioClip m_CurrentHBClip;
 
         private void Start()
         {
@@ -30,18 +31,18 @@ namespace PV.Systems.Geiger
         {
             var player = other.GetComponent<Player>();
 
-            if (player == null)
-            {
+            if (player == null) {
                 return;
             }
 
             m_Player = player;
+
+            m_HeartbeatSource.Play();
         }
 
         private void OnTriggerStay(Collider other)
         {
-            if (m_Player == null)
-            {
+            if (m_Player == null) {
                 return;
             }
 
@@ -50,38 +51,39 @@ namespace PV.Systems.Geiger
             normalized = Mathf.Clamp(normalized, 0, 1);
 
             //Sound
-            if (normalized <= 0.3f)
-            {
-                if (m_AudioSource.clip != m_GeigerCounter[0])
-                {
+            if (normalized <= 0.3f) {
+                if (m_AudioSource.clip != m_GeigerCounter[0]) {
                     m_CurrentClip = m_GeigerCounter[0];
+                    m_CurrentHBClip = m_Heartbeats[0];
                     m_AudioSource.Stop();
+                    m_HeartbeatSource.Stop();
                     Debug.Log("Normalized <= 0.3f");
                 }
             }
-            else if (normalized <= 0.6f)
-            {
-                if (m_AudioSource.clip != m_GeigerCounter[1])
-                {
+            else if (normalized <= 0.6f) {
+                if (m_AudioSource.clip != m_GeigerCounter[1]) {
                     m_CurrentClip = m_GeigerCounter[1];
+                    m_CurrentHBClip = m_Heartbeats[1];
                     m_AudioSource.Stop();
+                    m_HeartbeatSource.Stop();
                     Debug.Log("normalized <= 0.6f && normalized > 0.3f");
                 }
             }
-            else if (normalized <= 1f)
-            {
-                if (m_AudioSource.clip != m_GeigerCounter[2])
-                {
+            else if (normalized <= 1f) {
+                if (m_AudioSource.clip != m_GeigerCounter[2]) {
                     m_CurrentClip = m_GeigerCounter[2];
+                    m_CurrentHBClip = m_Heartbeats[2];
                     m_AudioSource.Stop();
+                    m_HeartbeatSource.Stop();
                     Debug.Log("normalized <= 1f && normalized > 0.6f");
                 }
             }
 
-            if (!m_AudioSource.isPlaying)
-            {
+            if (!m_AudioSource.isPlaying) {
                 m_AudioSource.clip = m_CurrentClip;
                 m_AudioSource.Play();
+                m_HeartbeatSource.clip = m_CurrentHBClip;
+                m_HeartbeatSource.Play();
             }
 
             Debug.Log($"Normalized: {normalized}");
@@ -89,12 +91,10 @@ namespace PV.Systems.Geiger
 
             m_VisualCue.UpdateRadiationCue(normalized);
 
-            if (Time.time >= m_Tick)
-            {
+            if (Time.time >= m_Tick) {
                 float damage = normalized * m_MaxDamage;
 
-                if (damage <= 0)
-                {
+                if (damage <= 0) {
                     return;
                 }
 
@@ -108,6 +108,7 @@ namespace PV.Systems.Geiger
             m_AudioSource.Stop();
             m_Player = null;
             m_Tick = 0f;
+            m_HeartbeatSource.Stop();
         }
     }
 }
