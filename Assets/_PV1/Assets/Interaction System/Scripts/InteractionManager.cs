@@ -37,17 +37,21 @@ namespace PV.Interaction
         public override void OnStart()
         {
             InputManager.Instance.Subscribe(OnInteract, OnPickUp);
+            if (m_InteractableCheckCollider) {
+                m_InteractableCheckCollider.OnCollisionEnterEvent += OnColliderEnterEvent;
+                m_InteractableCheckCollider.OnCollisionExitEvent += OnColliderExitEvent;
+            }
 
-            m_InteractableCheckCollider.OnCollisionEnterEvent += OnColliderEnterEvent;
-            m_InteractableCheckCollider.OnCollisionExitEvent += OnColliderExitEvent;
-
-            m_InteractableUI.gameObject.SetActive(false);
+            if (m_InteractableUI)
+                m_InteractableUI.gameObject.SetActive(false);
         }
 
         public override void OnDestroy()
         {
-            m_InteractableCheckCollider.OnCollisionEnterEvent -= OnColliderEnterEvent;
-            m_InteractableCheckCollider.OnCollisionExitEvent -= OnColliderExitEvent;
+            if (m_InteractableCheckCollider) {
+                m_InteractableCheckCollider.OnCollisionEnterEvent -= OnColliderEnterEvent;
+                m_InteractableCheckCollider.OnCollisionExitEvent -= OnColliderExitEvent;
+            }
 
             InputManager.Instance.Unsubscribe(OnInteract, OnPickUp);
         }

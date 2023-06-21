@@ -45,8 +45,12 @@ namespace PV
 
             m_Modules.ForEach(module => module.OnUpdate());
             if (!m_Vaulting) {
-                m_RB.Move(transform.position + new Vector3(m_MovementSpeed * Time.deltaTime, 0.0f, 0.0f) * m_Direction, transform.rotation);
+                if (m_RB) {
+                    m_RB.Move(transform.position + new Vector3(m_MovementSpeed * Time.deltaTime, 0.0f, 0.0f) * m_Direction, transform.rotation);
+                }
             }
+            if (m_Direction != 0)
+                transform.rotation = Quaternion.Euler(transform.rotation.x, m_Direction >= 0 ? 90 : -90, transform.rotation.z);
         }
 
         public void ScaleMovementSpeed(float multiplier)

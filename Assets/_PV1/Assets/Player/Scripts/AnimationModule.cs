@@ -10,6 +10,8 @@ namespace PV
     public class AnimationModule : Module
     {
         [SerializeField] private Animator m_Animator;
+        [SerializeField] private Transform m_GroundCheck;
+        [SerializeField] private float m_GroundCheckTreshold;
 
         private bool m_Moving = false;
         private bool m_Running = false;
@@ -36,6 +38,9 @@ namespace PV
             }
             if (m_Crouching) {
                 m_Animator.SetBool(Crouch, true);
+            }
+            else if (Physics.Raycast(m_GroundCheck.position, Vector3.down, out RaycastHit hit)) {
+                m_Animator.SetBool(Crouch, hit.distance >= m_GroundCheckTreshold);
             }
         }
 
