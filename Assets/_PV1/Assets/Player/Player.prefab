@@ -971,10 +971,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f359fa88d1f6b843a9445cbf5970349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_WalkSpeed: 5
-  m_RunSpeed: 7
-  m_CrouchSpeed: 2.5
-  m_VaultSpeed: 200
+  m_WalkSpeed: 3.5
+  m_RunSpeed: 5
+  m_CrouchSpeed: 1
+  m_VaultSpeed: 500
   m_CrouchCollider: {fileID: 6069791851821547383}
   m_Modules:
   - {fileID: 5718724174106735006}
@@ -1128,8 +1128,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GasMask: {fileID: 2444355421174469153}
-  m_DieSound: {fileID: 8300000, guid: 58a208e4523ce4d48922fde3c31ca4c9, type: 3}
-  m_DieSource: {fileID: 0}
 --- !u!82 &4680653279116652863
 AudioSource:
   m_ObjectHideFlags: 0
